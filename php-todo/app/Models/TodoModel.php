@@ -8,7 +8,7 @@ class TodoModel extends Model
 {
     protected $table = 'todo';
 
-    protected $allowedFields = ['title', 'body'];
+    protected $allowedFields = ['title', 'status'];
 
     public function getTodo(): array
     {
@@ -24,8 +24,21 @@ class TodoModel extends Model
     {
         $data = [
             'title' => $title,
-            'status' => 0
+            'status' => '0',
         ];
         return $this->insert($data);
     }
+
+    public function updateStatus($id, $status): bool
+    {
+        $data = [
+            'status' => $status
+        ];
+        log_message("error", "#############");
+        log_message("error", $id);
+        log_message("error", $status);
+        $this->where('id', $id);
+        return $this->update($id, $data);
+    }
+
 }

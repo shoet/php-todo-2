@@ -32,15 +32,12 @@ class Todo extends BaseController
     {
         $model = model(TodoModel::class);
         $title = $this->request->getPost('title');
-        $title = $this->request->getPost('title');
-        log_message("error", $title);
-        // $title = null;
+        // $title = null; TODO: try catch
         $result = $model->addTodo($title);
         if (!$result) {
-            log_message("info", "failure");
+            log_message("error", "Failed to add new todo");
             return redirect()->back()->with('errors', $model->errors());
         }
-        log_message("info", "success");
         return redirect()->to("/todo");
     }
 
@@ -57,6 +54,22 @@ class Todo extends BaseController
             view("todo/done.php") .
             view("todo/list.php", $data) .
             view("templates/footer.php");
+    }
+
+    public function updateStatus()
+    {
+        $data = $this->request->getJSON();
+        $id = $data->id;
+        $status = $data->status;
+
+        $model = model(TodoModel::class);
+        $result = $model->updateStatus($id, $status);
+        if (!$result) {
+            log_message("error", "Failed to update todo status");
+            return redirect()->back()->with('errors', $model->errors());
+        }
+
+        return redirect()->to("/todo");
     }
 
 }

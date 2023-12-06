@@ -14,4 +14,9 @@ class TodoModel extends Model
     {
         return $this->findAll();
     }
+
+    public function getTodoByStatus($status): array
+    {
+        return $this->where('status', $status)->findAll();
+    }
 }

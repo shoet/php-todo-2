@@ -23,12 +23,25 @@ class Todo extends BaseController
 
     public function new(): string
     {
-        return "new tood form";
+        return view("templates/header.php") .
+            view("todo/new.php") .
+            view("templates/footer.php");
     }
 
-    public function create(): string
+    public function create()
     {
-        return "create post success";
+        $model = model(TodoModel::class);
+        $title = $this->request->getPost('title');
+        $title = $this->request->getPost('title');
+        log_message("error", $title);
+        // $title = null;
+        $result = $model->addTodo($title);
+        if (!$result) {
+            log_message("info", "failure");
+            return redirect()->back()->with('errors', $model->errors());
+        }
+        log_message("info", "success");
+        return redirect()->to("/todo");
     }
 
     public function done(): string

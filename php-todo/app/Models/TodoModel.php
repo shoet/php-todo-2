@@ -19,4 +19,13 @@ class TodoModel extends Model
     {
         return $this->where('status', $status)->findAll();
     }
+
+    public function addTodo($title): bool
+    {
+        $data = [
+            'title' => $title,
+            'status' => 0
+        ];
+        return $this->insert($data);
+    }
 }

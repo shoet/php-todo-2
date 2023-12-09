@@ -8,6 +8,11 @@ function updateStatus(checkbox) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:8080/todo/update', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            window.location.href = 'http://localhost:8080/todo';
+        }
+    }
     xhr.send(JSON.stringify({ id: id, status: status }));
 }
 </script>
